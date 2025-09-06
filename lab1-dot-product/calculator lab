@@ -1,8 +1,11 @@
 import java.util.Scanner;
 public class simpleCalculator {
 //private constructor
+    //need a value to return the results to during the program
     private double currResult;
+    //need to know what operator is being used
     private String currOperator;
+
     private boolean FirstInput;
 // gets initial values for the private constructors. Uses this keyword to access the private info
     public simpleCalculator() {
@@ -60,7 +63,7 @@ public class simpleCalculator {
                 }
                 break;
             default:
-                
+
                 currResult = number;
                 System.out.println("Invalid input!");
 
@@ -75,11 +78,14 @@ public class simpleCalculator {
         Scanner scanner = new Scanner(System.in);
         simpleCalculator simpleCalculator = new simpleCalculator();
         System.out.println("==== Simple Calculator ====");
+        //prompt that the user will see before using the calculator
         System.out.println("Enter your numbers and operators (+,-,=,/): Type quit to exit");
+        //while loop to keep iterating over the program until the keyword to quit the program
         while (true) {
             System.out.print(">> ");
             String input = scanner.nextLine().trim();
             //gets everything and plugs everything in
+            //quits the program if the keyword is used and posts the results
             if (input.equals("quit")) {
                 System.out.println("Final result: " + simpleCalculator.currResult);
                 break;
