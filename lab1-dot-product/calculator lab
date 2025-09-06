@@ -1,0 +1,92 @@
+import java.util.Scanner;
+public class simpleCalculator {
+//private constructor
+    private double currResult;
+    private String currOperator;
+    private boolean FirstInput;
+// gets initial values for the private constructors. Uses this keyword to access the private info
+    public simpleCalculator() {
+        this.FirstInput = true;
+        this.currOperator = "+";
+        this.currResult = 0;
+    }
+    //checks if the input is an operator, if so, then the program will decide whether it should
+    //continue accepting more numbers or change the result based on the operation type
+    public void input(String input) {
+        if (isOperator(input)) {
+            if(input.equals("=")){
+                System.out.println("=" + currResult);
+                return;
+            }
+            else{
+                try {
+                    double number = Double.parseDouble(input);
+                    if (FirstInput) {
+                        currResult = number;
+                        FirstInput = false;
+                    } else {
+                        //uses class calculate to change the result depending on the operation type
+                        calculate(number);
+                    }
+                    //prints the current result
+                    System.out.println("=" + currResult);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("Invalid input!");
+                }
+            }
+        }
+    }
+    //Switch Case to know which operator is used, and then change the result via the operation type
+    private void calculate(double number) {
+        switch(currOperator) {
+            case "+":
+                currResult = currResult + number;
+                break;
+            case  "-":
+                currResult = currResult - number;
+                break;
+            case "*":
+                currResult = currResult * number;
+                break;
+            case  "/":
+                if (number == 0){
+                    //required or there will be an error whenever someone tries to divide by zero
+                    //ensures that the program doesn't collapse after wrong input
+                    System.out.println("Division by zero!");
+                }
+                else {
+                    currResult = currResult / number;
+                }
+                break;
+            default:
+                
+                currResult = number;
+                System.out.println("Invalid input!");
+
+        }
+    }
+    //Ensures that the operators used in the programs are actually permitted by whoever the event was for
+    private boolean isOperator(String input) {
+        return input.equals("+") || input.equals("-") || input.equals("*") || input.equals("/");
+    }
+    public static void main(String[] args) {
+        //reads the input from the user to the calculator
+        Scanner scanner = new Scanner(System.in);
+        simpleCalculator simpleCalculator = new simpleCalculator();
+        System.out.println("==== Simple Calculator ====");
+        System.out.println("Enter your numbers and operators (+,-,=,/): Type quit to exit");
+        while (true) {
+            System.out.print(">> ");
+            String input = scanner.nextLine().trim();
+            //gets everything and plugs everything in
+            if (input.equals("quit")) {
+                System.out.println("Final result: " + simpleCalculator.currResult);
+                break;
+            }
+            simpleCalculator.input(input);
+        }
+       //closes everything
+        scanner.close();
+    }
+}
