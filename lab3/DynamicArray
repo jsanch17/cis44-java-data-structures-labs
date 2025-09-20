@@ -1,1 +1,169 @@
+import java.util.Arrays;
+//#1 DynamicArray class
+public class DynamicArray<T> {
+    // Constants and instance variables as per instructions
+    private static final int INITIAL_CAPACITY = 10;
+    private T[] data;
+    private int size;
+
+
+    @SuppressWarnings("unchecked")
+    //Constructor to initilaze internal array with the initial capacity
+    public DynamicArray() {
+        data = (T[]) new Object[INITIAL_CAPACITY];
+        size = 0;
+    }
+
+    // Adds an element to the end
+    public void add(T element) {
+        //resize in case internal array is full
+        if (size == data.length) {
+            resize();
+        }
+        //adding the element
+        data[size++] = element;
+    }
+
+    // Returns the element at the specified index
+    public T get(int index) {
+        //calls the throw IndexOutOfBoundsException method to check validity of index
+        checkIndex(index);
+        //returns the index that was specified
+        return data[index];
+    }
+
+    // Removes the element at the specified index and shifts elements
+    public T remove(int index) {
+        //checks validity of index provided
+        checkIndex(index);
+        //removes index from array t
+        T removed = data[index];
+// iterates through array and shifts the elements to the left
+        for (int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+// ensures that the array only has the necessary memory allocation
+        data[size - 1] = null; // Prevent memory leak
+        size--;
+        return removed;
+    }
+
+    // Returns the current number of elements
+    public int size() {
+        return size;
+    }
+
+    // Doubles the capacity of the internal array
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        //creating new capacity that has double the length of the original array
+        int newCapacity = data.length * 2;
+        //creating a new array for the capacity
+        T[] newData = (T[]) new Object[newCapacity];
+        // iterates through the original and sets it to the new arrary
+        for (int i = 0; i < size; i++) {
+            newData[i] = data[i];
+        }
+        //sets the data to equal the new array so that capacity is doubled in original
+        data = newData;
+    }
+
+    // this throws an exception if index is out of bounds
+    private void checkIndex(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+    }
+}
+//Part 2
+import java.util.Scanner;
+public class TestDynamicArray {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        DynamicArray<String> arr = new DynamicArray<>();
+        boolean running = true;
+//intro to the program
+        System.out.println("Create an array");
+//while loop to keep the user in the program
+        while (running) {
+            //printing out the different options
+            System.out.println("\nChoose an option:");
+            System.out.println("1. Add an element");
+            System.out.println("2. Get an element by index");
+            System.out.println("3. Remove an element by index");
+            System.out.println("4. Show current size");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = -1;
+
+            // Handle invalid int input
+            if (input.hasNextInt()) {
+                choice = input.nextInt();
+                input.nextLine(); // Consume newline
+            } else {
+                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                input.nextLine(); // Clear the invalid input
+                continue;
+            }
+//switch case for the various outputs
+            switch (choice) {
+                //asks what to add in the array
+                case 1:
+                    System.out.print("Enter the element to add: ");
+                    String element = input.nextLine();
+                    //calls the add method
+                    arr.add(element);
+                    //gives the result
+                    System.out.println("\"" + element + "\" added.");
+                    break;
+
+                case 2:
+                    //to get the result of whichever index was provided
+                    System.out.print("Enter index to get: ");
+                    int getIndex = input.nextInt();
+                    input.nextLine(); // Consume newline
+                    //try-catch block to make sure that the index is within the array
+                    try {
+                        System.out.println("Element at index " + getIndex + ": " + arr.get(getIndex));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Invalid index. Please try again.");
+                    }
+                    break;
+
+                case 3:
+                    //removing an index frmo the array
+                    System.out.print("Enter index to remove: ");
+                    int removeIndex = input.nextInt();
+                    input.nextLine(); // Consume newline
+                    //another try-catch block to ensure that index being removed is in the array
+                    try {
+                        //Calls the remove function
+                        System.out.println("Removed: " + arr.remove(removeIndex));
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println("Invalid index. Please try again.");
+                    }
+                    break;
+
+                case 4:
+                    //calls the method to get the array size
+                    System.out.println("Current size: " + arr.size());
+                    break;
+
+                case 5:
+                    //ending statement
+                    //How the program knows to end the program
+                    running = false;
+                    System.out.println("Exiting... Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Please choose a valid option (1-5).");
+            }
+        }
+// closes the input part so no errors occur
+        input.close();
+    }
+}
 
