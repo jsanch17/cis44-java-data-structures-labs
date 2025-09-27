@@ -1,1 +1,134 @@
+public class Playlist {
+    private static class Node {
+        //creates a node for every new song added
+        Song song;
+        Node next;
 
+        Node(Song song) {
+            this.song = song;
+            this.next = null;
+        }
+    }
+//all elements for the linked list
+    private Node head;
+    private Node tail;
+    private Node currentNode;
+    //size of the list
+    private int size;
+
+    public Playlist() {
+        //empty playlist
+        this.head = null;
+        this.tail = null;
+        this.currentNode = null;
+        this.size = 0;
+    }
+
+    public void addSong(Song song) {
+        //new node
+        Node newNode = new Node(song);
+        if (head == null) {
+            head = tail = newNode;
+            tail.next = null;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+        size++;
+        System.out.println("Song added: " + song);
+    }
+
+    public void removeSong(String title) {
+        //checks if first element to see if playlist is empty
+        if (head == null) {
+            System.out.println("Empty Playlist.");
+            return;
+        }
+//removes the specific song from the linked list
+        if (head.song.getTitle().equalsIgnoreCase(title)) {
+            System.out.println("Removing song: " + head.song);
+            head = head.next;
+            if (head == null) {
+                tail = null;
+                currentNode = null;
+            }
+            //decreases size of the list, to prevent memory leakage
+            size--;
+            return;
+        }
+
+        Node prev = head;
+        Node curr = head.next;
+//loop through list
+        while (curr != null) {
+            //checks for matching title
+            if (curr.song.getTitle().equalsIgnoreCase(title)) {
+                //removes the song
+                System.out.println("Removing song: " + curr.song);
+                //points the node to the next node
+                prev.next = curr.next;
+                //updates the tail
+                if (curr == tail) {
+                    tail = prev;
+                }
+                //
+                if (curr == currentNode) {
+                    currentNode = curr.next;
+                }
+// decreases the size of the list
+                size--;
+                return;
+            }
+
+            prev = curr;
+            curr = curr.next;
+        }
+//if song is not found
+        System.out.println("Song not found: " + title);
+    }
+//next song method
+    public void playNext() {
+        //if nothing is in the list then nothing can be played
+        if (head == null) {
+            System.out.println("Playlist is empty.");
+            return;
+        }
+//
+        if (currentNode == null) {
+            currentNode = head;
+        } else {
+            currentNode = currentNode.next;
+            if (currentNode == null) {
+                currentNode = head; // Wrap around
+            }
+        }
+
+        System.out.println("Now playing: " + currentNode.song);
+    }
+//displays playlist
+    public void displayPlaylist() {
+        //nothing in the list, then nothing can be shown
+        if (head == null) {
+            System.out.println("Playlist is empty.");
+            return;
+        }
+//to print out the playlist
+        System.out.println("Current Playlist:");
+        Node temp = head;
+        //iterates through the whole list and prints it out
+        //uses a temporary list
+        while (temp != null) {
+            System.out.println("- " + temp.song);
+            temp = temp.next;
+        }
+    }
+
+    public boolean isEmpty() {
+        //checks if playlist is empty
+        return head == null;
+    }
+// returns size of playlist
+    public int getSize() {
+        return size;
+    }
+}
