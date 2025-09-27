@@ -1,1 +1,58 @@
+import java.util.Scanner;
 
+public class Main {
+    public static void main(String[] args) {
+        Playlist playlist = new Playlist();
+        Scanner scanner = new Scanner(System.in);
+
+        boolean exit = false;
+//while loop to keep program running
+        while (!exit) {
+            //diff choices
+            System.out.println("\n--- Playlist Menu ---");
+            System.out.println("1. Add Song");
+            System.out.println("2. Remove Song");
+            System.out.println("3. Play Next Song");
+            System.out.println("4. Display Playlist");
+            System.out.println("5. Exit");
+            System.out.print("Choose an option: ");
+
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                //switch case for each option
+                case "1":
+                    System.out.print("Enter song title: ");
+                    String title = scanner.nextLine().trim();
+                    System.out.print("Enter artist name: ");
+                    String artist = scanner.nextLine().trim();
+                    playlist.addSong(new Song(title, artist));
+                    break;
+
+                case "2":
+                    System.out.print("Enter title of song to remove: ");
+                    String removeTitle = scanner.nextLine().trim();
+                    playlist.removeSong(removeTitle);
+                    break;
+
+                case "3":
+                    playlist.playNext();
+                    break;
+
+                case "4":
+                    playlist.displayPlaylist();
+                    break;
+
+                case "5":
+                    exit = true;
+                    System.out.println("Exiting. Goodbye!");
+                    break;
+
+                default:
+                    System.out.println("Invalid option. Try again.");
+            }
+        }
+
+        scanner.close();
+    }
+}
