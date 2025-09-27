@@ -1,0 +1,27 @@
+public class Song {
+    //private variable, ensures the data of these variables cannot be accessed byusers
+    private String title;
+    private String artist;
+
+    public Song(String title, String artist) {
+        //so that the private variable can be called throughout the program
+        this.title = title;
+        this.artist = artist;
+    }
+
+    public String getTitle() {
+        //method to get the title
+        return title;
+    }
+
+    public String getArtist() {
+        //method to get the artist
+        return artist;
+    }
+
+    @Override
+    public String toString() {
+        //method to print out the results
+        return "\"" + title + "\" by " + artist;
+    }
+}
