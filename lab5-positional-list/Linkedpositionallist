@@ -1,0 +1,114 @@
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class LinkedPositionalList<E> implements Iterable<E> {
+
+    private static class Node<E> implements Position<E> {
+        //the data
+        E element;
+        //next and previous pointers
+        Node<E> prev, next;
+//the node class
+        Node(E e, Node<E> p, Node<E> n) {
+            element = e;
+            prev = p;
+            next = n;
+        }
+//returns the element
+        public E getElement() {
+            return element;
+        }
+    }
+//instance variable
+    private Node<E> header, trailer;
+    private int size = 0;
+//initalizes the empty list with a header/trailer
+    public LinkedPositionalList() {
+        header = new Node<>(null, null, null);
+        trailer = new Node<>(null, header, null);
+        header.next = trailer;
+    }
+//returns the position corresponding to the node
+    private Position<E> position(Node<E> node) {
+        if (node == header || node == trailer) return null;
+        return node;
+    }
+//returns first position in the list
+    public Position<E> first() { 
+        return position(header.next); 
+    }
+    //returns the last position of the list
+    public Position<E> last() { 
+        return position(trailer.prev); 
+    }
+//returns the position of the element before the one being called
+    public Position<E> before(Position<E> p) {
+        Node<E> node = (Node<E>) p;
+        return position(node.prev);
+    }
+//returns the position of the element after the on being called
+    public Position<E> after(Position<E> p) {
+        Node<E> node = (Node<E>) p;
+        return position(node.next);
+    }
+//Adds an element between two nodes
+    private Position<E> addBetween(E e, Node<E> pred, Node<E> succ) {
+        Node<E> newNode = new Node<>(e, pred, succ);
+        pred.next = newNode;
+        succ.prev = newNode;
+        size++;
+        return newNode;
+    }
+//adds element to the front of the list
+    public Position<E> addFirst(E e) {
+        return addBetween(e, header, header.next); 
+    }
+//adds element to the back of the lsit
+    public Position<E> addLast(E e) { 
+        return addBetween(e, trailer.prev, trailer);
+    }
+//adds an element before the position stated
+    public Position<E> addBefore(Position<E> p, E e) {
+        Node<E> node = (Node<E>) p;
+        return addBetween(e, node.prev, node);
+    }
+//adds element afrer position given
+    public Position<E> addAfter(Position<E> p, E e) {
+        Node<E> node = (Node<E>) p;
+        return addBetween(e, node, node.next);
+    }
+//replaces the element at the set position
+    public E set(Position<E> p, E e) {
+        Node<E> node = (Node<E>) p;
+        E old = node.element;
+        node.element = e;
+        return old;
+    }
+//removes element at the position
+    public E remove(Position<E> p) {
+        Node<E> node = (Node<E>) p;
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+        size--;
+        return node.element;
+    }
+//private class to implement iterator
+    private class ElementIterator implements Iterator<E> {
+        Position<E> cursor = first();
+//true if there is another element
+        public boolean hasNext() {
+            return cursor != null;
+        }
+//returns the element and goes to the next
+        public E next() {
+            if (cursor == null) throw new NoSuchElementException();
+            E result = cursor.getElement();
+            cursor = after(cursor);
+            return result;
+        }
+    }
+//returns 
+    public Iterator<E> iterator() {
+        return new ElementIterator();
+    }
+}
