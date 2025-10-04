@@ -1,0 +1,63 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class Inventory {
+    //items list
+    private List<Item> items;
+
+    public Inventory() {
+        //constructor
+        this.items = new ArrayList<>();
+    }
+
+    public void addItem(Item item) {
+        //adds items into the list
+        items.add(item);
+    }
+
+    public void display() {
+        //displays items in the list
+        System.out.print("Inventory: ");
+        for (Item item : items) {
+            System.out.print(item);
+        }
+    }
+
+    public void combineItems(String name1, String name2) {
+        //combines items in the list
+        boolean found1 = false;
+        boolean found2 = false;
+        //iterator for the loop
+        Iterator<Item> iter = items.iterator();
+        //while loop to iterate through the list
+        while (iter.hasNext()) {
+            Item current = iter.next();
+            //checks for the items and removes if found
+            if (!found1 && current.getName().equals(name1)) {
+                found1 = true;//marks item as found
+                iter.remove();//removes using iterator
+            } else if (!found2 && current.getName().equals(name2)) {
+                found2 = true;
+                iter.remove();
+            }
+//ends loop if both found
+            if (found1 && found2) {
+                break;
+            }
+        }
+//since both are found this activates after
+        if (found1 && found2) {
+            //combines both of the items found and creates a new item
+            Item combinedItem = new Item("Combined: " + name1 + " + " + name2);
+            //adds this combined item to the list
+            items.add(combinedItem);
+            //prints out the results
+            System.out.println("Successfully combined \"" + name1 + "\" and \"" + name2 + "\" into \"" + combinedItem.getName() + "\".");
+        } else {
+            //on the chance that the two were not found
+            System.out.println("Could not find both items to combine.");
+        }
+    }
+}
+
