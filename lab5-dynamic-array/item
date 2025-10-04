@@ -1,0 +1,18 @@
+public class Item {
+    // private name of the item
+    private String name;
+    public Item(String name) {
+        //constructor
+        this.name = name;
+    }
+    public String getName() {
+        //gets and returns the name
+        return name;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Item: " + name;
+    }
+}
