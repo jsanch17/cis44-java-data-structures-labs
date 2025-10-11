@@ -1,0 +1,9 @@
+// --- STACK INTERFACE ---
+
+interface Stack<E> {
+    int size();           // Returns the number of elements in the stack.
+    boolean empty();      // Checks if the stack is empty.
+    void push(E element); // Pushes an element onto the stack.
+    E peek();             // Returns the top element without removing it.
+    E pop();              // Removes and returns the top element.
+}
