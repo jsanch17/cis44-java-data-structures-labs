@@ -2,8 +2,8 @@ import java.util.EmptyStackException;
 
 
 class ArrayStack<E> implements Stack<E> {
-    private Object[] data; // Internal array to store elements
-    private int t = -1;    // Index of the top element (-1 means the stack is empty)
+    private Object[] data; // array to store elements
+    private int t = -1;    // index of the top element
 
     public ArrayStack(int capacity) {
         data = new Object[capacity];
@@ -16,7 +16,7 @@ class ArrayStack<E> implements Stack<E> {
         return (t == -1);
     }
 
-
+//if new items are being added to a full stack
     public void push(E element) throws IllegalStateException {
         if (size() == data.length) {
             throw new IllegalStateException("Stack is full");
