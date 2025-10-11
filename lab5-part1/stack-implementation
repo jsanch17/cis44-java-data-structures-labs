@@ -2,10 +2,10 @@
 public class SyntaxChecker {
 
     public static boolean isBalanced(String line) {
-        // Create a stack to hold opening symbols.
+        // Create a stack 
         Stack<Character> buffer = new ArrayStack<>(line.length());
 
-        // Iterate through each character in the string.
+        // Iterate through array
         for (int i = 0; i < line.length(); i++) {
             char ch = line.charAt(i);
 
