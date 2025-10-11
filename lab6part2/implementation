@@ -1,0 +1,80 @@
+// --- QUEUE IMPLEMENTATION ---
+class LinkedQueue<E> implements Queue<E> {
+
+    private static class Node<E> {
+        private E element;        // The data stored in the node
+        private Node<E> next;     // Reference to the next node
+
+        // Constructor
+        public Node(E e, Node<E> n) {
+            element = e;
+            next = n;
+        }
+
+        public E getElement() { return element; }
+        public Node<E> getNext() { return next; }
+    }
+
+    // Front (head) and rear (tail) of the queue
+    private Node<E> head = null;
+    private Node<E> tail = null;
+    private int size = 0; // Number of elements in the queue
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+
+    public void enqueue(E e) {
+        Node<E> newest = new Node<>(e, null); // New node will be the new tail
+        if (isEmpty()) {
+            head = newest; // If queue is empty, new node is also the head
+        } else {
+            tail.next = newest; // Link new node at the end of the queue
+        }
+        tail = newest; // Update tail to point to the new node
+        size++;
+    }
+
+
+    public E first() {
+        if (isEmpty()) return null;
+        return head.getElement();
+    }
+
+
+    public E dequeue() {
+        if (isEmpty()) return null;
+        E answer = head.getElement();   // Get the front element
+        head = head.getNext();          // Move head to the next node
+        size--;
+
+        // If queue is now empty, reset tail to null
+        if (isEmpty()) tail = null;
+
+        return answer;
+    }
+
+    /**
+     * Returns a string representation of the queue contents.
+     * Elements are listed from front to rear.
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        Node<E> walk = head;
+
+        while (walk != null) {
+            sb.append(walk.getElement());
+            if (walk.getNext() != null) sb.append(", ");
+            walk = walk.getNext();
+        }
+
+        sb.append(")");
+        return sb.toString();
+    }
+}
