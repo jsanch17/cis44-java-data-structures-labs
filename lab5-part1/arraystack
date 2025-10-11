@@ -1,0 +1,56 @@
+import java.util.EmptyStackException;
+
+
+class ArrayStack<E> implements Stack<E> {
+    private Object[] data; // Internal array to store elements
+    private int t = -1;    // Index of the top element (-1 means the stack is empty)
+
+    public ArrayStack(int capacity) {
+        data = new Object[capacity];
+    }
+    public int size() {
+        return (t + 1);
+    }
+
+    public boolean empty() {
+        return (t == -1);
+    }
+
+
+    public void push(E element) throws IllegalStateException {
+        if (size() == data.length) {
+            throw new IllegalStateException("Stack is full");
+        }
+        data[++t] = element;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    public E peek() throws EmptyStackException {
+        if (empty()) {
+            throw new EmptyStackException();
+        }
+        return (E) data[t];
+    }
+
+    @SuppressWarnings("unchecked")
+    public E pop() throws EmptyStackException {
+        if (empty()) {
+            throw new EmptyStackException();
+        }
+        E answer = (E) data[t]; // Store top element
+        data[t--] = null;       // Avoid memory leak and decrement top index
+        return answer;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+        for (int i = 0; i <= t; i++) {
+            sb.append(data[i]);
+            if (i < t) sb.append(", ");
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+}
