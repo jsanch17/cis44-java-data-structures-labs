@@ -4,19 +4,24 @@ import java.util.Random;
 public class SortingTester {
 
     public static void main(String[] args) {
+        // Array sizes to test
         int[] sizes = {1000, 5000, 10000, 25000, 50000, 100000};
 
         System.out.println("--- The Sorting Race ---");
 
+        // Run tests for each size
         for (int n : sizes) {
             System.out.println("\n--- Testing for array size n = " + n + " ---");
 
+            // Generate and test Average Case (random)
             int[] averageCase = generateRandomArray(n);
             runAndTimeAllSorts(averageCase, "Average Case", n);
 
+            // Generate and test Best Case (sorted ascending)
             int[] bestCase = generateSortedArray(n);
             runAndTimeAllSorts(bestCase, "Best Case", n);
 
+            // Generate and test Worst Case (sorted descending)
             int[] worstCase = generateReverseSortedArray(n);
             runAndTimeAllSorts(worstCase, "Worst Case", n);
         }
@@ -25,18 +30,21 @@ public class SortingTester {
     public static void runAndTimeAllSorts(int[] original, String caseType, int size) {
         System.out.println("Case: " + caseType);
 
+        // Selection Sort
         int[] arr1 = Arrays.copyOf(original, original.length);
         long start = System.nanoTime();
         SortingAlgorithms.selectionSort(arr1);
         long end = System.nanoTime();
         System.out.printf("Selection Sort: %.2f ms%n", (end - start) / 1e6);
 
+        // Insertion Sort
         int[] arr2 = Arrays.copyOf(original, original.length);
         start = System.nanoTime();
         SortingAlgorithms.insertionSort(arr2);
         end = System.nanoTime();
         System.out.printf("Insertion Sort: %.2f ms%n", (end - start) / 1e6);
 
+        // Merge Sort
         int[] arr3 = Arrays.copyOf(original, original.length);
         start = System.nanoTime();
         SortingAlgorithms.mergeSort(arr3);
@@ -44,6 +52,8 @@ public class SortingTester {
         System.out.printf("Merge Sort: %.2f ms%n", (end - start) / 1e6);
     }
 
+    // Generates an array of random integers.
+     
     public static int[] generateRandomArray(int size) {
         Random rand = new Random();
         int[] arr = new int[size];
@@ -53,6 +63,9 @@ public class SortingTester {
         return arr;
     }
 
+    
+     //Generates a sorted array in ascending order.
+     
     public static int[] generateSortedArray(int size) {
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
@@ -61,6 +74,9 @@ public class SortingTester {
         return arr;
     }
 
+
+     //Generates a sorted array in descending order.
+     
     public static int[] generateReverseSortedArray(int size) {
         int[] arr = new int[size];
         for (int i = 0; i < size; i++) {
