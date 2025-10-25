@@ -1,0 +1,71 @@
+import java.util.Arrays;
+import java.util.Random;
+
+public class SortingTester {
+
+    public static void main(String[] args) {
+        int[] sizes = {1000, 5000, 10000, 25000, 50000, 100000};
+
+        System.out.println("--- The Sorting Race ---");
+
+        for (int n : sizes) {
+            System.out.println("\n--- Testing for array size n = " + n + " ---");
+
+            int[] averageCase = generateRandomArray(n);
+            runAndTimeAllSorts(averageCase, "Average Case", n);
+
+            int[] bestCase = generateSortedArray(n);
+            runAndTimeAllSorts(bestCase, "Best Case", n);
+
+            int[] worstCase = generateReverseSortedArray(n);
+            runAndTimeAllSorts(worstCase, "Worst Case", n);
+        }
+    }
+
+    public static void runAndTimeAllSorts(int[] original, String caseType, int size) {
+        System.out.println("Case: " + caseType);
+
+        int[] arr1 = Arrays.copyOf(original, original.length);
+        long start = System.nanoTime();
+        SortingAlgorithms.selectionSort(arr1);
+        long end = System.nanoTime();
+        System.out.printf("Selection Sort: %.2f ms%n", (end - start) / 1e6);
+
+        int[] arr2 = Arrays.copyOf(original, original.length);
+        start = System.nanoTime();
+        SortingAlgorithms.insertionSort(arr2);
+        end = System.nanoTime();
+        System.out.printf("Insertion Sort: %.2f ms%n", (end - start) / 1e6);
+
+        int[] arr3 = Arrays.copyOf(original, original.length);
+        start = System.nanoTime();
+        SortingAlgorithms.mergeSort(arr3);
+        end = System.nanoTime();
+        System.out.printf("Merge Sort: %.2f ms%n", (end - start) / 1e6);
+    }
+
+    public static int[] generateRandomArray(int size) {
+        Random rand = new Random();
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = rand.nextInt();
+        }
+        return arr;
+    }
+
+    public static int[] generateSortedArray(int size) {
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = i;
+        }
+        return arr;
+    }
+
+    public static int[] generateReverseSortedArray(int size) {
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = size - i;
+        }
+        return arr;
+    }
+}
