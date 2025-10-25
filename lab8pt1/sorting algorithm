@@ -1,67 +1,53 @@
-public class SortingAlgorithms {
-
-    // Selection Sort: O(n^2)
+public class SortingAlgorithms {  
     public static void selectionSort(int[] arr) {
         for (int i = 0; i < arr.length - 1; i++) {
             int minIndex = i;
+            // Find the index of the minimum element in the unsorted part
             for (int j = i + 1; j < arr.length; j++) {
                 if (arr[j] < arr[minIndex]) {
                     minIndex = j;
                 }
             }
+            // Swap the found minimum with the first unsorted element
             int temp = arr[minIndex];
             arr[minIndex] = arr[i];
             arr[i] = temp;
         }
     }
-
-    // Insertion Sort: O(n^2), Best Case: O(n)
     public static void insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
             int key = arr[i];
             int j = i - 1;
+            // Shift elements greater than key to the right
             while (j >= 0 && arr[j] > key) {
                 arr[j + 1] = arr[j];
                 j--;
             }
+            // Place key in its correct position
             arr[j + 1] = key;
         }
     }
 
-    // Merge Sort: O(n log n)
     public static void mergeSort(int[] arr) {
         if (arr == null || arr.length <= 1) {
-            return;
+            return; // Already sorted or empty
         }
-        int[] temp = new int[arr.length];
+        int[] temp = new int[arr.length]; // Temporary array for merging
         mergeSortRecursive(arr, temp, 0, arr.length - 1);
     }
+
 
     private static void mergeSortRecursive(int[] arr, int[] temp, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
-            mergeSortRecursive(arr, temp, left, mid);
-            mergeSortRecursive(arr, temp, mid + 1, right);
-            merge(arr, temp, left, mid, right);
+            mergeSortRecursive(arr, temp, left, mid);       // Sort left half
+            mergeSortRecursive(arr, temp, mid + 1, right);   // Sort right half
+            merge(arr, temp, left, mid, right);              // Merge sorted halves
         }
     }
 
     private static void merge(int[] arr, int[] temp, int left, int mid, int right) {
+        // Copy elements to temporary array
         for (int i = left; i <= right; i++) {
             temp[i] = arr[i];
-        }
-
-        int i = left, j = mid + 1, k = left;
-        while (i <= mid && j <= right) {
-            if (temp[i] <= temp[j]) {
-                arr[k++] = temp[i++];
-            } else {
-                arr[k++] = temp[j++];
-            }
-        }
-
-        while (i <= mid) {
-            arr[k++] = temp[i++];
-        }
-    }
-}
+       
