@@ -1,12 +1,7 @@
 public class SearchComparison {
 
-    /**
-     * Lab 1a: Iterative Linear Search
-     * Searches for 'key' in the array 'arr' one element at a time.
-     * @param arr The array to search (can be unsorted).
-     * @param key The value to find.
-     * @return The index of the key if found, otherwise -1.
-     */
+    //Lab 1a: Iterative Linear Search
+   
     public static int linearSearch(int[] arr, int key) {
         // Loop through each element in the array
         for (int i = 0; i < arr.length; i++) {
@@ -19,13 +14,8 @@ public class SearchComparison {
         return -1;
     }
 
-    /**
-     * Lab 1b: Iterative Binary Search
-     * Searches for 'key' in a sorted array 'arr' using the divide-and-conquer method.
-     * @param arr The array to search (MUST be sorted).
-     * @param key The value to find.
-     * @return The index of the key if found, otherwise -1.
-     */
+    //Lab 1b: Iterative Binary Search
+    
     public static int binarySearch(int[] arr, int key) {
         int low = 0; // Start of the search range
         int high = arr.length - 1; // End of the search range
