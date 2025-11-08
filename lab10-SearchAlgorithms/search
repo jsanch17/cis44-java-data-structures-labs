@@ -1,0 +1,75 @@
+public class SearchComparison {
+
+    /**
+     * Lab 1a: Iterative Linear Search
+     * Searches for 'key' in the array 'arr' one element at a time.
+     * @param arr The array to search (can be unsorted).
+     * @param key The value to find.
+     * @return The index of the key if found, otherwise -1.
+     */
+    public static int linearSearch(int[] arr, int key) {
+        // Loop through each element in the array
+        for (int i = 0; i < arr.length; i++) {
+            // Check if the current element matches the key
+            if (arr[i] == key) {
+                return i; // Return the index if found
+            }
+        }
+        // If the key is not found, return -1
+        return -1;
+    }
+
+    /**
+     * Lab 1b: Iterative Binary Search
+     * Searches for 'key' in a sorted array 'arr' using the divide-and-conquer method.
+     * @param arr The array to search (MUST be sorted).
+     * @param key The value to find.
+     * @return The index of the key if found, otherwise -1.
+     */
+    public static int binarySearch(int[] arr, int key) {
+        int low = 0; // Start of the search range
+        int high = arr.length - 1; // End of the search range
+
+        // Continue searching while the range is valid
+        while (low <= high) {
+            // Calculate the middle index
+            int mid = (low + high) / 2;
+
+            // Check if the middle element is the key
+            if (arr[mid] == key) {
+                return mid; // Return the index if found
+            }
+            // If the key is smaller, search the left half
+            else if (key < arr[mid]) {
+                high = mid - 1;
+            }
+            // If the key is larger, search the right half
+            else {
+                low = mid + 1;
+            }
+        }
+
+        // If the key is not found, return -1
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        // Unsorted array for linear search
+        int[] unsortedData = {22, 8, 12, 1, 9, 30, 4, 15};
+        // Sorted array for binary search
+        int[] sortedData =   {1, 4, 8, 9, 12, 15, 22, 30};
+
+        System.out.println("--- Lab 1: Search Algorithm Implementation ---");
+
+        // Test Linear Search on unsorted data
+        System.out.println("Linear Search (Unsorted):");
+        System.out.println("Find 9: Index " + linearSearch(unsortedData, 9)); // Expected: 4
+        System.out.println("Find 3: Index " + linearSearch(unsortedData, 3)); // Expected: -1
+
+        // Test Binary Search on sorted data
+        System.out.println("\nBinary Search (Sorted):");
+        System.out.println("Find 9: Index " + binarySearch(sortedData, 9)); // Expected: 3
+        System.out.println("Find 3: Index " + binarySearch(sortedData, 3)); // Expected: -1
+        System.out.println("Find 30: Index " + binarySearch(sortedData, 30)); // Expected: 7
+    }
+}
