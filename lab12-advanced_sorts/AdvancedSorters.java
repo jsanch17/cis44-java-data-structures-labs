@@ -4,21 +4,21 @@ import java.util.Comparator;
 
 public class AdvancedSorters {
 
-    // --- MergeSort ---
+    // mergesort
     public static <K> void mergeSort(K[] S, Comparator<K> comp) {
         int n = S.length;
-        if (n < 2) return; // Base case
+        if (n < 2) return; // base case
 
-        // Divide
+        // divide
         int mid = n / 2;
         K[] S1 = Arrays.copyOfRange(S, 0, mid);
         K[] S2 = Arrays.copyOfRange(S, mid, n);
 
-        // Conquer
+        // conquer
         mergeSort(S1, comp);
         mergeSort(S2, comp);
 
-        // Combine
+        // combine
         merge(S, S1, S2, comp);
     }
 
@@ -39,7 +39,7 @@ public class AdvancedSorters {
         }
     }
 
-    // --- QuickSort ---
+    // quickSort 
     public static <K> void quickSort(K[] S, Comparator<K> comp) {
         quickSort(S, comp, 0, S.length - 1);
     }
@@ -73,7 +73,7 @@ public class AdvancedSorters {
             S[right] = temp;
         }
 
-        // Place pivot in correct position
+        // place pivot in correct position
         S[a] = S[right];
         S[right] = pivot;
 
