@@ -12,7 +12,7 @@ class Entry<K, V> {
     }
     public K getKey() { return key; }
     public V getValue() { return value; }
-    public V setValue(V value) { 
+    public V setValue(V value) {
         V old = this.value;
         this.value = value;
         return old;
@@ -42,58 +42,35 @@ class UnsortedListMap<K, V> implements MapADT<K, V> {
 
     public int size() { return list.size(); }
     public boolean isEmpty() { return list.isEmpty(); }
-    
+
     public V get(K key) {
         int i = findEntryIndex(key);
         return (i != -1) ? list.get(i).getValue() : null;
     }
-    
+
     public V remove(K key) {
         int i = findEntryIndex(key);
         if (i != -1) {
             V oldValue = list.get(i).getValue();
-            list.remove(i); 
+            list.remove(i);
             return oldValue;
         }
         return null;
     }
-    
+
     // TODO: Complete this method (O(n))
     public V put(K key, V value) {
         // 1. Search for existing key.
         int i = findEntryIndex(key);
-         
+
         // 2. If found, update the value and return the old value.
         if (i != -1) {
             return list.get(i).setValue(value);
         }
-        
+
         // 3. If not found, add a new entry and return null.
         list.add(new Entry<>(key, value));
         return null;
-    }
-}
-
-// --- 4. Demo with Main Method ---
-public class Main {
-    public static void main(String[] args) {
-        UnsortedListMap<String, Integer> map = new UnsortedListMap<>();
-
-        System.out.println("Initial size: " + map.size() + ", isEmpty: " + map.isEmpty());
-
-        Integer r1 = map.put("A", 10);
-        System.out.println("put(A,10) returned: " + r1 + " | get(A): " + map.get("A"));
-
-        Integer r2 = map.put("B", 20);
-        System.out.println("put(B,20) returned: " + r2 + " | get(B): " + map.get("B"));
-
-        Integer r3 = map.put("A", 99);
-        System.out.println("put(A,99) returned (old value): " + r3 + " | get(A): " + map.get("A"));
-
-        Integer removedB = map.remove("B");
-        System.out.println("remove(B) returned: " + removedB + " | get(B): " + map.get("B"));
-
-        System.out.println("Final size: " + map.size() + ", isEmpty: " + map.isEmpty());
     }
 }
 
