@@ -1,0 +1,24 @@
+// --- 4. Demo driver ---
+public class Main {
+    public static void main(String[] args) {
+        MapADT<Integer, String> map = new UnsortedListMap<>();
+
+        // input this: put(5, A) (Output: null)
+        System.out.println(map.put(5, "A")); // null
+
+        // put(7, B) (Output: null)
+        System.out.println(map.put(7, "B")); // null
+
+        // put(2, C) (Output: null)
+        System.out.println(map.put(2, "C")); // null
+
+        // put(2, E) (Output: C - demonstrates value replacement)
+        System.out.println(map.put(2, "E")); // C
+
+        // get(7) (Output: B)
+        System.out.println(map.get(7)); // B
+
+        // remove(5) (Output: A)
+        System.out.println(map.remove(5)); // A
+    }
+}
