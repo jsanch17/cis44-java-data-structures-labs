@@ -1,5 +1,5 @@
 
-package com.yourname.exam3.cache;
+package exam3.lru.cache;
 
 import java.util.HashMap;
 import java.util.Map;
