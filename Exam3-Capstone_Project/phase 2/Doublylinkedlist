@@ -1,5 +1,5 @@
 
-package com.yourname.exam3.cache;
+package exam3.lru.cache;
 
 /**
  * Minimal doubly linked list with O(1) operations required by an LRU cache:
