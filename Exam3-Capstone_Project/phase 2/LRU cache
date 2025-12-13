@@ -1,0 +1,112 @@
+
+package com.yourname.exam3.cache;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * LRU Cache implemented using HashMap + DoublyLinkedList.
+ * Time Complexity (average):
+ *  - get(key): O(1)
+ *  - put(key, value): O(1) (includes O(1) tail eviction when full)
+ *
+ * Eviction policy: Least Recently Used (node at the tail).
+ *
+ * @param <K> key type
+ * @param <V> value type
+ */
+public class LRUCache<K, V> {
+    private final int capacity;
+    private final Map<K, Node<K, V>> map;
+    private final DoublyLinkedList<K, V> list;
+
+    /**
+     * Create an LRU cache with a positive capacity.
+     */
+    public LRUCache(int capacity) {
+        if (capacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be > 0");
+        }
+        this.capacity = capacity;
+        this.map = new HashMap<>();
+        this.list = new DoublyLinkedList<>();
+    }
+
+    /**
+     * Return the value for the given key if present; otherwise null.
+     * Marks the entry as most recently used.
+     */
+    public V get(K key) {
+        Node<K, V> node = map.get(key);
+        if (node == null) return null; // miss
+
+        // Move node to front (MRU)
+        list.remove(node);
+        list.addFirst(node);
+        return node.getValue();
+    }
+
+    /**
+     * Insert or update (key, value). If the cache is full, evict the LRU entry.
+     */
+    public void put(K key, V value) {
+        Node<K, V> existing = map.get(key);
+        if (existing != null) {
+            // Update value and recency
+            existing.setValue(value);
+            list.remove(existing);
+            list.addFirst(existing);
+            return;
+        }
+
+        // Evict if at capacity
+        if (map.size() >= capacity) {
+            Node<K, V> lru = list.removeLast();
+            if (lru != null) {
+                map.remove(lru.getKey());
+            }
+        }
+
+        // Insert new node at front
+        Node<K, V> newNode = new Node<>(key, value);
+        list.addFirst(newNode);
+        map.put(key, newNode);
+    }
+
+    /**
+     * Number of entries currently stored.
+     */
+    public int size() {
+        return map.size();
+    }
+
+    /**
+     * Whether the cache currently contains the key.
+     */
+    public boolean containsKey(K key) {
+        return map.containsKey(key);
+    }
+
+    /**
+     * View the most-recently used key without removing it (or null if empty).
+     */
+    public K peekMostRecentKey() {
+        Node<K, V> h = list.getHead();
+        return h == null ? null : h.getKey();
+    }
+
+    /**
+     * View the least-recently used key without removing it (or null if empty).
+     */
+    public K peekLeastRecentKey() {
+        Node<K, V> t = list.getTail();
+        return t == null ? null : t.getKey();
+    }
+
+    /**
+     * Get the cache capacity.
+     */
+    public int getCapacity() {
+        return capacity;
+    }
+}
