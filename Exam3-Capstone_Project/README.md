@@ -30,4 +30,43 @@ We need a cache that provides instant access to frequently used data while manag
 - Thread-safety is **not** required for this assignment.
 - Eviction policy: strictly **LRU** (least recently used).
 
-## 5. UML Diagram (High-Level)
+## 5. UML Diagram 
+
+### UML Diagram
+
+```text
++---------------------+
+|      LRUCache       |
++---------------------+
+| - capacity: int     |
+| - map: HashMap      |
+| - list: DLL         |
++---------------------+
+| +get(key): int      |
+| +put(key,value):void|
+| +size(): int        |
++---------------------+
+
+              uses
+               |
+               v
++---------------------------+
+|    DoublyLinkedList       |
++---------------------------+
+| - head: Node              |
+| - tail: Node              |
++---------------------------+
+| +addFirst(Node): void     |
+| +remove(Node): void       |
+| +removeLast(): Node       |
++---------------------------+
+
++-----------------------+
+|         Node          |
++-----------------------+
+| - key: int            |
+| - value: int          |
+| - prev: Node          |
+| - next: Node          |
++-----------------------+
+
