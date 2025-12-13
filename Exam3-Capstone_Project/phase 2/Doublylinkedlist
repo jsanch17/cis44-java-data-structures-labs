@@ -1,0 +1,75 @@
+
+package com.yourname.exam3.cache;
+
+/**
+ * Minimal doubly linked list with O(1) operations required by an LRU cache:
+ * - addFirst(node)
+ * - remove(node)
+ * - removeLast()
+ */
+public class DoublyLinkedList<K, V> {
+    private Node<K, V> head; // Most Recently Used (MRU)
+    private Node<K, V> tail; // Least Recently Used (LRU)
+    private int size;
+
+    /**
+     * Insert the node at the front (mark as most recently used).
+     */
+    public void addFirst(Node<K, V> node) {
+        if (node == null) return;
+        // detach node from any existing neighbors
+        node.setPrev(null);
+        node.setNext(head);
+
+        if (head != null) {
+            head.setPrev(node);
+        }
+        head = node;
+
+        if (tail == null) {
+            tail = node; // first element inserted
+        }
+        size++;
+    }
+
+    /**
+     * Remove a node from the list in O(1).
+     */
+    public void remove(Node<K, V> node) {
+        if (node == null) return;
+
+        Node<K, V> p = node.getPrev();
+        Node<K, V> n = node.getNext();
+
+        if (p != null) {
+            p.setNext(n);
+        } else {
+            head = n;
+        }
+
+        if (n != null) {
+            n.setPrev(p);
+        } else {
+            tail = p;
+        }
+
+        node.setPrev(null);
+        node.setNext(null);
+        if (size > 0) size--;
+    }
+
+    /**
+     * Remove and return the least recently used node (tail).
+     */
+    public Node<K, V> removeLast() {
+        if (tail == null) return null;
+        Node<K, V> lru = tail;
+        remove(lru);
+        return lru;
+    }
+
+    public Node<K, V> getHead() { return head; }
+    public Node<K, V> getTail() { return tail; }
+    public int size() { return size; }
+    public boolean isEmpty() { return size == 0; }
+}
