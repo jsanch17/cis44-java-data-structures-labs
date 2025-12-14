@@ -1,4 +1,4 @@
-
+//simplified version of phase2 to show a diff between them. This applies to alll them
 package exam3.lru.cache;
 
 final class DoublyLinkedList {
