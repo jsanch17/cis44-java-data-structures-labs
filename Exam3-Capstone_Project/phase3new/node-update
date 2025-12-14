@@ -1,18 +1,9 @@
 
 package exam3.lru.cache;
 
-/**
- * Internal node for the doubly linked list used by LRUCache.
- * Holds key-value and prev/next pointers.
- */
 final class Node {
-    int key;
-    int value;
-    Node prev;
-    Node next;
-
-    Node(int k, int v) {
-        this.key = k;
-        this.value = v;
-    }
+    int key, value;
+    Node prev, next;
+    Node(int k, int v) { key = k; value = v; }
 }
+
